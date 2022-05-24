@@ -1,41 +1,25 @@
-def BFS(x,y):
-    cnt = 0
-    queue = []
-    arr[x][y] = 0
-    queue.append([x,y])
-    while queue:
-        cnt += 1
-        for i in range(4):
-            xx = queue[0][0] + dx[i]
-            yy = queue[0][1] + dy[i]
-            if xx >= 0 and yy >= 0 and xx < a and yy < b:
-                if arr[xx][yy] != 0:
-                    queue.append([xx,yy])
-                    arr[xx][yy] = 0
-                    ret[xx][yy] = queue[0]    
-        del queue[0]
-    
-dx = [-1,1,0,0]
-dy = [0,0,-1,1]
-a, b = map(int,input().split())
-ret = [[[0,0] for _ in range(b)] for _ in range(a)]
-arr = [[0 for _ in range(b)] for _ in range(a)]
-for i in range(a):
-    st = input()
-    for j in range(b):
-        arr[i][j] = int(st[j])
-BFS(0,0)
-n = 0
-m = 0
-ret[0][0] = [0,0]
-a = a-1
-b = b-1
-c = 1
-while a != 0 or b != 0:
-    da = a
-    a = ret[a][b][0]
-    b = ret[da][b][1]
-    c += 1
-    
-print(c)
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+n, m = map(int,input().split())
+arr = [list(map(int,input().strip())) for _ in range(n)]
+visit = [[0 for _ in range(m)] for _ in range(n)]
+dy = [0,-1,0,1]
+dx = [1,0,-1,0]
+queue = deque([[0,0]])
+visit[0][0] = 1
+while queue:
+    y, x = queue.popleft()
+    for i in range(4):
+        yy = y + dy[i]
+        xx = x + dx[i]
+        if 0 <= yy < n and 0 <= xx < m and arr[yy][xx] == 1 and visit[yy][xx] == 0:
+            visit[yy][xx] = visit[y][x] + 1
+            queue.append([yy,xx])
+print(visit[n-1][m-1])
+
+
+
+
 
